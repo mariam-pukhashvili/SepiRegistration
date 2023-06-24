@@ -80,33 +80,41 @@ function Homepage() {
 		});
 	};
 
-	const handleFavouriteEvent = () => {
+	const handleFavouriteEvent = (drinkid) => {
 		dispatch({
 			type: SET_FAVOURITE,
+			payload: drinkid,
 		});
 	};
 
-	const handleaddToFavourites = async (cocktails) => {
+	const handleaddToFavourites = async (drinkid) => {
 		//event.preventDefault();
-		const email = "sa";
-		const firstName = "ma";
-		const id = 1;
+
+		// const favouriteCocktail = state.cocktails.filter((cocktail) => {
+		// 	if (cocktail.id === drinkid.id) {
+		// 		return cocktail;
+		// 	} else return false;
+		// });
+
+		const favouriteCocktail = state.cocktails.filter(
+			(item) => item.id === drinkid.id
+		);
 		try {
-			const res = await addToFavourites({
-				cocktails,
-			});
+			if (favouriteCocktail) {
+				handleFavouriteEvent(drinkid);
+				const res = await addToFavourites(favouriteCocktail[0]);
+			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	const rendercocktails = () => {
-		console.log(state.cocktails);
 		return (
 			<CocktailsList
 				data={state.cocktails}
 				favourite={state.favourite}
-				handleFavourite={() => handleaddToFavourites(state.cocktails)}
+				handleFavourite={(id) => handleaddToFavourites({ id })}
 			/>
 		);
 	};

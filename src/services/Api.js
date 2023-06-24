@@ -44,7 +44,6 @@ export const registerUser = async (user) => {
 
 export const addToFavourites = async (data) => {
 	try {
-		console.log(data);
 		const response = await axios.post(`${API_BASE_URL}/favourites`, data);
 		return response.data;
 	} catch (error) {
@@ -93,6 +92,25 @@ export const getMovies = async () => {
 export const getCoctails = async () => {
 	try {
 		const response = await axios(`${API_BASE_URL}/drinks`);
+		return response.data;
+	} catch (error) {
+		throw new Error(error.response.data);
+	}
+};
+
+export const getFavourites = async () => {
+	try {
+		const response = await axios(`${API_BASE_URL}/favourites`);
+		return response.data;
+	} catch (error) {
+		throw new Error(error.response.data);
+	}
+};
+
+export const deleteFromFavourites = async (id) => {
+	try {
+		const response = await axios.delete(`${API_BASE_URL}/favourites/${id}`);
+
 		return response.data;
 	} catch (error) {
 		throw new Error(error.response.data);

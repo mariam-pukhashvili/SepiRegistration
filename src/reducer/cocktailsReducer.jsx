@@ -31,12 +31,24 @@ const cocktailsReducer = (state, action) => {
 				cocktails: [...state.oldcocktails],
 				empty: false,
 			};
-		case "SET_FAVOURITE":
+		case SET_FAVOURITE:
+			// return {
+			// 	...state,
+			// 	favourite: true,
+			// 	cocktails: [...state.oldcocktails],
+			// 	empty: false,
+			// };
+
+			const favdata = state.cocktails.map((item) => {
+				if (item.id === action.payload) {
+					item.favourite = !item.favourite;
+				}
+			});
+
 			return {
 				...state,
-				favourite: true,
-				cocktails: [...state.oldcocktails],
-				empty: false,
+				filter: action.payload,
+				cocktails: favdata,
 			};
 
 		default:

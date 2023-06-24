@@ -11,6 +11,7 @@ import { authGuardLoader } from "../loaders/authGuard.loader";
 import NotFound from "../pages/not-found/NotFound";
 import Users from "../pages/user/Users";
 import Homepage from "../pages/user/Homepage";
+import Favourites from "../pages/cocktails/Favourites";
 
 export const router = createBrowserRouter([
 	{
@@ -64,6 +65,17 @@ export const router = createBrowserRouter([
 					{
 						index: true,
 						element: <Homepage />,
+					},
+				],
+			},
+			{
+				path: "/favourites",
+				element: <UserLayout />,
+				loader: authGuardLoader,
+				children: [
+					{
+						index: true,
+						element: <Favourites />,
 					},
 				],
 			},
