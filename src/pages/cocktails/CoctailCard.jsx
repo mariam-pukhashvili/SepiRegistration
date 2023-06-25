@@ -1,13 +1,25 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
-const CocktailCard = ({ item, handleFavourite, favourite }) => {
-	console.log(favourite);
+
+const CocktailCard = ({
+	item,
+	handleFavourite,
+	favourites,
+	removeFavourite,
+}) => {
+	//const [checkfavourite, setFavourite] = useState(false);
+	const forfavourite = favourites.filter((fav) => fav.id === item.id);
+	//forfavourite.length > 0 ||
 	return (
 		<div className="card col-4 shadow mb-3 p-0" key={item.id}>
 			<div className="text-end p-2">
-				{favourite ? (
-					<VscHeartFilled size={40} color="red" />
+				{item.forfavourite ? (
+					<VscHeartFilled
+						size={40}
+						color="red"
+						onClick={() => removeFavourite(item.id)}
+					/>
 				) : (
 					<VscHeart
 						size={40}

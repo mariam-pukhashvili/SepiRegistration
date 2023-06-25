@@ -1,29 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { getFavourites, deleteFromFavourites } from "../../services/Api";
 import CocktailCard from "./CoctailCard";
-export const CocktailsList = ({ data, handleFavourite, favourite }) => {
+export const CocktailsList = ({ data, handleFavourite, removeFavourite }) => {
 	//const [favourite, UseFavourite] = useState(false);
 
 	// const handleFavourite = () => {
 	// 	UseFavourite(true);
 	// 	console.log(favourite);
 	// };
-	// const [cocktails, setCocktails] = useState([]);
+	const [Favourites, setFavourites] = useState([]);
 
-	// useEffect(() => {
-	// 	fetchCocktails();
-	// }, []);
+	useEffect(() => {
+		fetchFavourites();
+	}, []);
 
-	// const fetchCocktails = async () => {
-	// 	const appCocktails = await getFavourites();
-	// 	if (appCocktails?.length) {
-	// 		setCocktails(appCocktails);
-	// 	}
-	// 	console.log(appCocktails);
-	// 	return appCocktails;
-	// };
+	const fetchFavourites = async () => {
+		const appFavourites = await getFavourites();
+		if (appFavourites?.length) {
+			setFavourites(appFavourites);
+		}
+
+		return appFavourites;
+	};
 	return (
 		<div className="row px-3 cocktail">
 			{data.map((item) => {
@@ -31,8 +31,9 @@ export const CocktailsList = ({ data, handleFavourite, favourite }) => {
 					<CocktailCard
 						key={item.id}
 						item={item}
-						handleFavourite={() => handleFavourite()}
-						favourite={item.favourite}
+						handleFavourite={() => handleFavourite(item.id)}
+						removeFavourite={() => removeFavourite(item.id)}
+						favourites={Favourites}
 					/>
 				);
 			})}

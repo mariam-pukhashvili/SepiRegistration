@@ -3,6 +3,7 @@ const cocktailsReducer = (state, action) => {
 	const SET_FILTER = "SET_FILTER";
 	const CLEAR_FILTER = "CLEAR_FILTER";
 	const SET_FAVOURITE = "SET_FAVOURITE";
+	const REMOVE_FAVOURITE = "REMOVE_FAVOURITE";
 
 	switch (action.type) {
 		case SET_COCKTAILS:
@@ -39,16 +40,37 @@ const cocktailsReducer = (state, action) => {
 			// 	empty: false,
 			// };
 
+			// const favdata = state.cocktails.map((item) => {
+			// 	//console.log(item.forfavourite);
+			// 	if (item.id === action.payload.id) {
+			// 		item.forfavourite = true;
+			// 	}
+			// });
+
 			const favdata = state.cocktails.map((item) => {
-				if (item.id === action.payload) {
-					item.favourite = !item.favourite;
+				if (item.id === action.payload.id) {
+					item.forfavourite = true;
 				}
+				return item;
 			});
 
 			return {
 				...state,
-				filter: action.payload,
+
 				cocktails: favdata,
+			};
+
+		case REMOVE_FAVOURITE:
+			const removefavdata = state.cocktails.map((item) => {
+				if (item.id === action.payload.id) {
+					item.forfavourite = false;
+				}
+				return item;
+			});
+			return {
+				...state,
+
+				cocktails: removefavdata,
 			};
 
 		default:

@@ -116,3 +116,15 @@ export const deleteFromFavourites = async (id) => {
 		throw new Error(error.response.data);
 	}
 };
+
+export const updateDrinks = async (id) => {
+	try {
+		//const response = await axios.delete(`${API_BASE_URL}/favourites/${id}`);
+		const response = await axios.patch(`${API_BASE_URL}/drinks/${id}`, {
+			forfavourite: true,
+		});
+		return response.data;
+	} catch (error) {
+		throw new Error(error.response.data);
+	}
+};

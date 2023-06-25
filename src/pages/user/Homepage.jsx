@@ -8,11 +8,14 @@ import EmptyData from "../../components/emptydata";
 import CocktailsList from "../cocktails/CoctailsList";
 import cocktailsReducer from "../../reducer/cocktailsReducer";
 import { addToFavourites } from "../../services/Api";
+import { updateDrinks } from "../../services/Api";
+import { deleteFromFavourites } from "../../services/Api";
 
 const SET_COCKTAILS = "SET_COCKTAILS";
 const SET_FILTER = "SET_FILTER";
 const CLEAR_FILTER = "CLEAR_FILTER";
 const SET_FAVOURITE = "SET_FAVOURITE";
+const REMOVE_FAVOURITE = "REMOVE_FAVOURITE";
 const initialState = {
 	cocktails: [],
 	oldcocktails: [],
@@ -80,9 +83,17 @@ function Homepage() {
 		});
 	};
 
-	const handleFavouriteEvent = (drinkid) => {
+	const handleFavouriteEvent = async (drinkid) => {
 		dispatch({
 			type: SET_FAVOURITE,
+			payload: drinkid,
+		});
+	};
+
+	const handleremoveFavourite = async (drinkid) => {
+		const res = await deleteFromFavourites(drinkid.id);
+		dispatch({
+			type: REMOVE_FAVOURITE,
 			payload: drinkid,
 		});
 	};
@@ -101,7 +112,7 @@ function Homepage() {
 		);
 		try {
 			if (favouriteCocktail) {
-				handleFavouriteEvent(drinkid);
+				await handleFavouriteEvent(drinkid);
 				const res = await addToFavourites(favouriteCocktail[0]);
 			}
 		} catch (error) {
@@ -111,11 +122,13 @@ function Homepage() {
 
 	const rendercocktails = () => {
 		return (
-			<CocktailsList
-				data={state.cocktails}
-				favourite={state.favourite}
-				handleFavourite={(id) => handleaddToFavourites({ id })}
-			/>
+			<>
+				<CocktailsList
+					data={state.cocktails}
+					handleFavourite={(id) => handleaddToFavourites({ id })}
+					removeFavourite={(id) => handleremoveFavourite({ id })}
+				/>
+			</>
 		);
 	};
 	return (

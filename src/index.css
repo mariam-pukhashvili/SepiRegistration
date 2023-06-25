@@ -22,3 +22,6 @@ code {
 	flex-direction: row;
 	max-width: 40em;
 }
+.header h1 {
+	color: #e83e8c;
+}
