@@ -5,13 +5,14 @@ import AuthLayout from "../pages/auth/AuthLayout";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import UserLayout from "../pages/user/UserLayout";
-import Dashboard from "../pages/user/Dashboard";
+
 import { authLoader } from "../loaders/auth.loader";
 import { authGuardLoader } from "../loaders/authGuard.loader";
 import NotFound from "../pages/not-found/NotFound";
-import Users from "../pages/user/Users";
+
 import Homepage from "../pages/user/Homepage";
 import Favourites from "../pages/cocktails/Favourites";
+import CocktailDetail from "../pages/cocktails/CocktailDetail";
 
 export const router = createBrowserRouter([
 	{
@@ -45,20 +46,12 @@ export const router = createBrowserRouter([
 				children: [
 					{
 						index: true,
-						element: <Dashboard />,
-					},
-					{
-						path: "/user/dashboard",
-						element: <Dashboard />,
-					},
-					{
-						path: "/user/users",
-						element: <Users />,
+						element: <Homepage />,
 					},
 				],
 			},
 			{
-				path: "/home",
+				path: "/?:q",
 				element: <UserLayout />,
 				loader: authGuardLoader,
 				children: [
@@ -68,6 +61,18 @@ export const router = createBrowserRouter([
 					},
 				],
 			},
+
+			// {
+			// 	path: "/home",
+			// 	element: <UserLayout />,
+			// 	loader: authGuardLoader,
+			// 	children: [
+			// 		{
+			// 			index: true,
+			// 			element: <Homepage />,
+			// 		},
+			// 	],
+			// },
 			{
 				path: "/favourites",
 				element: <UserLayout />,
@@ -76,6 +81,17 @@ export const router = createBrowserRouter([
 					{
 						index: true,
 						element: <Favourites />,
+					},
+				],
+			},
+			{
+				path: "/details/:id",
+				element: <UserLayout />,
+				loader: authGuardLoader,
+				children: [
+					{
+						index: true,
+						element: <CocktailDetail />,
 					},
 				],
 			},

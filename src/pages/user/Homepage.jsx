@@ -9,8 +9,9 @@ import CocktailsList from "../cocktails/CoctailsList";
 import cocktailsReducer from "../../reducer/cocktailsReducer";
 import { addToFavourites } from "../../services/Api";
 import { updateDrinks } from "../../services/Api";
-import { deleteFromFavourites } from "../../services/Api";
-
+import { deleteFromFavourites, getFilteredData } from "../../services/Api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const SET_COCKTAILS = "SET_COCKTAILS";
 const SET_FILTER = "SET_FILTER";
 const CLEAR_FILTER = "CLEAR_FILTER";
@@ -25,14 +26,24 @@ const initialState = {
 };
 
 function Homepage() {
-	const [state, dispatch] = useReducer(cocktailsReducer, initialState);
+	let { q } = useParams();
 
+	const queryParams = new URLSearchParams(window.location.search);
+	let searchkey = queryParams.get("q");
+
+	const [state, dispatch] = useReducer(cocktailsReducer, initialState);
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
+	const [searching, setsearching] = useState(false);
 	const inputElement = useRef();
 
 	const loadCocktails = useCallback(async () => {
-		const cocktailslist = await getCoctails();
+		const cocktailslist = searchkey
+			? await getFilteredData(searchkey)
+			: await getCoctails();
 
+		if (searchkey) inputElement.current.value = searchkey;
+		//console.log(cocktailslist);
 		//setcocktailsStorage(cocktailslist);
 		dispatch({
 			type: SET_COCKTAILS,
@@ -76,11 +87,21 @@ function Homepage() {
 			}
 		}
 	});
-	const handleClearEvent = () => {
+	const handleClearEvent = async () => {
 		inputElement.current.value = "";
-		dispatch({
-			type: CLEAR_FILTER,
-		});
+		const cocktailslist = await getCoctails();
+		setLoading(true);
+		const timer = setTimeout(() => {
+			dispatch({
+				type: SET_COCKTAILS,
+				payload: cocktailslist,
+			});
+			setLoading(false);
+			navigate("/");
+		}, 1000);
+		return () => {
+			clearTimeout(timer);
+		};
 	};
 
 	const handleFavouriteEvent = async (drinkid) => {
@@ -96,6 +117,26 @@ function Homepage() {
 			type: REMOVE_FAVOURITE,
 			payload: drinkid,
 		});
+	};
+
+	const handleFilterEvent = async () => {
+		let searchdata = inputElement.current.value;
+		if (searchdata != "") {
+			const res = await getFilteredData(searchdata);
+
+			setLoading(true);
+			const timer = setTimeout(() => {
+				dispatch({
+					type: SET_COCKTAILS,
+					payload: res,
+				});
+				setLoading(false);
+				navigate("/?q=" + searchdata);
+			}, 1000);
+			return () => {
+				clearTimeout(timer);
+			};
+		}
 	};
 
 	const handleaddToFavourites = async (drinkid) => {
@@ -143,17 +184,22 @@ function Homepage() {
 							className="form-control"
 							placeholder="start typing..."
 							name="searchTerm"
-							onKeyUp={onSearch}
+
+							// onKeyUp={onSearch}
 						/>
 					</div>
-
-					<div className="col-md-1">
-						<button className="btn btn-primary" onClick={handleClearEvent}>
-							clear
-						</button>
+					<div className="col-1">
+						{!searchkey ? (
+							<button className="btn btn-primary" onClick={handleFilterEvent}>
+								Search
+							</button>
+						) : (
+							<button className="btn btn-primary" onClick={handleClearEvent}>
+								Clear
+							</button>
+						)}
 					</div>
 				</div>
-				<h3 className="myTitle display-6">Cocktails</h3>
 			</div>
 			<div className="col-12">{loading ? <Loader /> : rendercocktails()}</div>
 

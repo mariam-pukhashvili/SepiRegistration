@@ -17,13 +17,13 @@ const CocktailCard = ({
 				{item.forfavourite ? (
 					<VscHeartFilled
 						size={40}
-						color="red"
+						color="#e83e8c"
 						onClick={() => removeFavourite(item.id)}
 					/>
 				) : (
 					<VscHeart
 						size={40}
-						color="red"
+						color="#e83e8c"
 						onClick={() => handleFavourite(item.id)}
 					/>
 				)}
@@ -33,12 +33,12 @@ const CocktailCard = ({
 				src={item.strDrinkThumb}
 				alt="cocktail"
 			/>
-			<div className="cocktailFooter">
+			<div className="cocktailFooter mb-3">
 				<h3>{item.strDrink} </h3>
 				<h6 className="mt-1">{item.strGlass}</h6>
 				<p className="mt-1 text-muted">{item.strAlcoholic}</p>
 				<Link to={`/details/${item.id}`}>
-					<button className="btn col-md-4 btn-details">Details</button>
+					<div className="btn-details text-end mr-3">Details</div>
 				</Link>
 			</div>
 		</div>

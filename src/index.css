@@ -25,3 +25,56 @@ code {
 .header h1 {
 	color: #e83e8c;
 }
+.active-link {
+	color: #e83e8c;
+}
+.auth button {
+	height: 40px;
+	width: 150px;
+}
+.header .dropdown-toggle {
+	height: 40px;
+	width: 200px;
+}
+.header a {
+	text-decoration: none;
+	padding: 10px;
+}
+.header ul {
+	width: 175px;
+	transform: translate3d(51px, 40px, 0px) !important;
+}
+.header ul li {
+	cursor: pointer;
+	color: #e83e8c;
+	padding: 10px;
+}
+.header button {
+	text-decoration: none;
+	font-size: 18px;
+}
+.header img {
+	margin-right: 10px;
+}
+.forhref {
+	color: red;
+	cursor: pointer;
+	text-decoration: underline;
+}
+.btn-details {
+	color: #e83e8c;
+	text-decoration: underline;
+	margin-right: 10px;
+}
+.details .card img {
+	max-width: 50%;
+	margin: auto;
+	padding: 0.5em;
+	border-radius: 0.7em;
+}
+.details .card {
+	flex-direction: row;
+}
+.details .description {
+	color: #e83e8c;
+}

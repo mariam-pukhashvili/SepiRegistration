@@ -98,6 +98,24 @@ export const getCoctails = async () => {
 	}
 };
 
+export const getOneCoctails = async (id) => {
+	try {
+		const response = await axios.get(`${API_BASE_URL}/drinks/${id}`);
+		return response.data;
+	} catch (error) {
+		throw new Error(error.response.data);
+	}
+};
+
+export const getFilteredData = async (data) => {
+	try {
+		const response = await axios.get(`${API_BASE_URL}/drinks?q=${data}`);
+		return response.data;
+	} catch (error) {
+		throw new Error(error.response.data);
+	}
+};
+
 export const getFavourites = async () => {
 	try {
 		const response = await axios(`${API_BASE_URL}/favourites`);

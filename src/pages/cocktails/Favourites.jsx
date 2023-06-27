@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUsers } from "../../services/Api";
 import { getFavourites, deleteFromFavourites } from "../../services/Api";
 import { Link } from "react-router-dom";
+
 const Favourites = () => {
 	const [cocktails, setCocktails] = useState([]);
 
@@ -46,12 +47,12 @@ const Favourites = () => {
 									<p className="mt-1 text-muted">{item.strCategory}</p>
 									<p className="mt-1 text-muted">{item.strIngredient1}</p>
 
-									<button
-										className="btn btn-danger"
+									<div
+										class="forhref"
 										onClick={() => handleDeleteDrink(item.id)}
 									>
-										Delete From Favorites
-									</button>
+										Delete
+									</div>
 								</div>
 							</div>
 						</div>

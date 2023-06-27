@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../services/Api";
-
+import {
+	MDBContainer,
+	MDBCol,
+	MDBRow,
+	MDBBtn,
+	MDBIcon,
+	MDBInput,
+	MDBCheckbox,
+} from "mdb-react-ui-kit";
+import cocktailphoto from "../../public/cockphotos.png";
 const Register = () => {
 	const [email, setEmail] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -34,58 +43,81 @@ const Register = () => {
 	};
 
 	return (
-		<div>
-			<h3>Registration</h3>
-			<form onSubmit={handleRegister}>
-				<div>
-					<input
-						type="email"
-						name="email"
-						placeholder="Email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div>
-					<input
-						type="text"
-						name="firstName"
-						placeholder="First Name"
-						value={firstName}
-						onChange={(e) => setFirstName(e.target.value)}
-					/>
-				</div>
-				<div>
-					<input
-						type="text"
-						name="lastName"
-						placeholder="Last Name"
-						value={lastName}
-						onChange={(e) => setLastName(e.target.value)}
-					/>
-				</div>
-				<div>
-					<input
-						type="text"
-						name="username"
-						placeholder="Username"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-				</div>
-				<div>
-					<input
-						type="password"
-						name="password"
-						placeholder="Password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</div>
-				<button type="submit">Register</button>
-				<Link to="/auth/login">Login</Link>
-			</form>
-		</div>
+		<MDBContainer className="p-3 my-5 h-custom auth">
+			<MDBRow>
+				<MDBCol col="10" md="6">
+					<img src={cocktailphoto} class="img-fluid" alt="Sample image" />
+				</MDBCol>
+
+				<MDBCol col="4" md="6">
+					<h3>Registration</h3>
+					<form onSubmit={handleRegister}>
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							type="email"
+							size="md"
+							name="email"
+							placeholder="Email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							name="firstName"
+							size="md"
+							placeholder="First Name"
+							value={firstName}
+							onChange={(e) => setFirstName(e.target.value)}
+						/>
+
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							type="text"
+							size="md"
+							name="lastName"
+							placeholder="Last Name"
+							value={lastName}
+							onChange={(e) => setLastName(e.target.value)}
+						/>
+
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							type="text"
+							size="md"
+							name="username"
+							placeholder="Username"
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							type="password"
+							name="password"
+							size="md"
+							placeholder="Password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+						<MDBBtn type="submit" className="mb-0 px-5" size="md">
+							Register
+						</MDBBtn>
+						<p className="small fw-bold mt-2 pt-1 mb-2">
+							Already have an account?{" "}
+							<Link to="/auth/login" className="link-danger">
+								Login
+							</Link>
+						</p>
+					</form>
+				</MDBCol>
+			</MDBRow>
+		</MDBContainer>
 	);
 };
 

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/Api";
+import cocktailphoto from "../../public/cockphotos.png";
+import UserContext from "../../context/UserContext";
 
 import {
 	MDBContainer,
@@ -16,6 +18,8 @@ const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const ctx = useContext(UserContext);
+
 	const navigate = useNavigate();
 
 	const handleLogin = async (event) => {
@@ -29,6 +33,12 @@ const Login = () => {
 
 			if (res?.accessToken) {
 				localStorage.setItem("token", res.accessToken);
+				localStorage.setItem("user", JSON.stringify(res.user));
+				ctx.onUserUpdate({
+					firstName: res.user.firstName,
+					lastName: res.user.lastName,
+				});
+
 				navigate("/");
 			}
 			console.log(res);
@@ -40,19 +50,15 @@ const Login = () => {
 	};
 
 	return (
-		<MDBContainer fluid className="p-3 my-5 h-custom">
+		<MDBContainer className="p-3 my-5 h-custom auth">
 			<MDBRow>
 				<MDBCol col="10" md="6">
-					<img
-						src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-						class="img-fluid"
-						alt="Sample image"
-					/>
+					<img src={cocktailphoto} className="img-fluid" alt="Sample image" />
 				</MDBCol>
 
 				<MDBCol col="4" md="6">
 					<div className="d-flex flex-row align-items-center justify-content-center">
-						<h3 className="lead fw-normal mb-4 me-3 ">Sign in</h3>
+						<h3>Sign In</h3>
 					</div>
 
 					<form onSubmit={handleLogin}>
@@ -60,7 +66,7 @@ const Login = () => {
 							wrapperClass="mb-4"
 							id="formControlLg"
 							type="email"
-							size="lg"
+							size="md"
 							name="email"
 							placeholder="Email"
 							value={email}
@@ -70,7 +76,7 @@ const Login = () => {
 							wrapperClass="mb-4"
 							id="formControlLg"
 							type="password"
-							size="lg"
+							size="md"
 							name="password"
 							placeholder="Password"
 							value={password}
@@ -88,7 +94,7 @@ const Login = () => {
 						</div>
 
 						<div className="text-center text-md-start mt-4 pt-2">
-							<MDBBtn className="mb-0 px-5" size="lg">
+							<MDBBtn type="submit" className="mb-0 px-5">
 								Login
 							</MDBBtn>
 							<p className="small fw-bold mt-2 pt-1 mb-2">
