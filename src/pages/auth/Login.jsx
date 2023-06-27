@@ -17,7 +17,7 @@ import {
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
+	const [loginError, setLoginError] = useState(false);
 	const ctx = useContext(UserContext);
 
 	const navigate = useNavigate();
@@ -43,6 +43,7 @@ const Login = () => {
 			}
 			console.log(res);
 		} catch (error) {
+			setLoginError(true);
 			console.log(error);
 		}
 
@@ -83,20 +84,17 @@ const Login = () => {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 
-						<div className="d-flex justify-content-between mb-4">
-							<MDBCheckbox
-								name="flexCheck"
-								value=""
-								id="flexCheckDefault"
-								label="Remember me"
-							/>
-							<a href="!#">Forgot password?</a>
-						</div>
-
 						<div className="text-center text-md-start mt-4 pt-2">
 							<MDBBtn type="submit" className="mb-0 px-5">
 								Login
 							</MDBBtn>
+							{loginError ? (
+								<div className="alert alert-danger mt-3">
+									The email or password is incorrect!
+								</div>
+							) : (
+								""
+							)}
 							<p className="small fw-bold mt-2 pt-1 mb-2">
 								Don't have an account?{" "}
 								<Link to="/auth/register" className="link-danger">

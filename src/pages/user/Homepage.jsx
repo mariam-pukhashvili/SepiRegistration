@@ -12,6 +12,7 @@ import { updateDrinks } from "../../services/Api";
 import { deleteFromFavourites, getFilteredData } from "../../services/Api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useParams } from "react-router-dom";
+
 const SET_COCKTAILS = "SET_COCKTAILS";
 const SET_FILTER = "SET_FILTER";
 const CLEAR_FILTER = "CLEAR_FILTER";

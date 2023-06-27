@@ -18,7 +18,10 @@ const Register = () => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [username, setUsername] = useState("");
+	const [phone, setPhone] = useState("");
 	const [password, setPassword] = useState("");
+	const [repassword, setRePassword] = useState("");
+	const [registerError, setregisterError] = useState("");
 
 	const navigate = useNavigate();
 
@@ -31,6 +34,7 @@ const Register = () => {
 				firstName,
 				lastName,
 				username,
+				phone,
 				password,
 			});
 
@@ -39,6 +43,7 @@ const Register = () => {
 			}
 		} catch (error) {
 			console.log(error);
+			setregisterError(error.message);
 		}
 	};
 
@@ -94,6 +99,16 @@ const Register = () => {
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 						/>
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							type="text"
+							name="phone"
+							size="md"
+							placeholder="Phone"
+							value={phone}
+							onChange={(e) => setPhone(e.target.value)}
+						/>
 
 						<MDBInput
 							wrapperClass="mb-4"
@@ -105,9 +120,24 @@ const Register = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 						/>
+						<MDBInput
+							wrapperClass="mb-4"
+							id="formControlLg"
+							type="password"
+							name="repassword"
+							size="md"
+							placeholder="Repeat Password"
+							value={password}
+							onChange={(e) => setRePassword(e.target.value)}
+						/>
 						<MDBBtn type="submit" className="mb-0 px-5" size="md">
 							Register
 						</MDBBtn>
+						{registerError ? (
+							<div className="alert alert-danger mt-3">{registerError}</div>
+						) : (
+							""
+						)}
 						<p className="small fw-bold mt-2 pt-1 mb-2">
 							Already have an account?{" "}
 							<Link to="/auth/login" className="link-danger">
