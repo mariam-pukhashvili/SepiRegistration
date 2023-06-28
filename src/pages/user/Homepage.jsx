@@ -9,7 +9,7 @@ import CocktailsList from "../cocktails/CoctailsList";
 import cocktailsReducer from "../../reducer/cocktailsReducer";
 import { addToFavourites } from "../../services/Api";
 import { updateDrinks } from "../../services/Api";
-import { deleteFromFavourites, getFilteredData } from "../../services/Api";
+import { deleteFromFavourites } from "../../services/Api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -35,13 +35,13 @@ function Homepage() {
 	const [state, dispatch] = useReducer(cocktailsReducer, initialState);
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
+	const [limit, setLimit] = useState(9);
 	const [searching, setsearching] = useState(false);
 	const inputElement = useRef();
 
 	const loadCocktails = useCallback(async () => {
-		const cocktailslist = searchkey
-			? await getFilteredData(searchkey)
-			: await getCoctails();
+		let search = searchkey ? searchkey : "";
+		const cocktailslist = await getCoctails(limit, search);
 
 		if (searchkey) inputElement.current.value = searchkey;
 		//console.log(cocktailslist);
@@ -88,9 +88,25 @@ function Homepage() {
 			}
 		}
 	});
+	const handleMoreData = async () => {
+		let forlimit = limit + 9;
+		//console.log(forlimit);
+		setLimit(forlimit);
+		console.log(parseInt(limit));
+
+		const cocktailsdata = await getCoctails(forlimit);
+
+		//console.log(cocktailslist);
+		//setcocktailsStorage(cocktailslist);
+		dispatch({
+			type: SET_COCKTAILS,
+			payload: cocktailsdata,
+		});
+	};
+
 	const handleClearEvent = async () => {
 		inputElement.current.value = "";
-		const cocktailslist = await getCoctails();
+		const cocktailslist = await getCoctails(limit, "");
 		setLoading(true);
 		const timer = setTimeout(() => {
 			dispatch({
@@ -122,8 +138,9 @@ function Homepage() {
 
 	const handleFilterEvent = async () => {
 		let searchdata = inputElement.current.value;
+
 		if (searchdata != "") {
-			const res = await getFilteredData(searchdata);
+			const res = await getCoctails(limit, searchdata);
 
 			setLoading(true);
 			const timer = setTimeout(() => {
@@ -203,6 +220,9 @@ function Homepage() {
 				</div>
 			</div>
 			<div className="col-12">{loading ? <Loader /> : rendercocktails()}</div>
+			<div className="btn btn-primary mb-5" onClick={handleMoreData}>
+				Load More
+			</div>
 
 			<div className="col-12">
 				{!loading && state.empty ? <EmptyData /> : ""}

@@ -89,9 +89,12 @@ export const getMovies = async () => {
 	}
 };
 
-export const getCoctails = async () => {
+export const getCoctails = async (limit = 0, search = "") => {
+	let filter = search != "" ? "&q=" + search : "";
 	try {
-		const response = await axios(`${API_BASE_URL}/drinks`);
+		const response = await axios(
+			`${API_BASE_URL}/drinks?&_limit=${limit}${filter}`
+		);
 		return response.data;
 	} catch (error) {
 		throw new Error(error.response.data);

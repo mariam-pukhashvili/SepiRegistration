@@ -12,7 +12,7 @@ const CocktailCard = ({
 	const forfavourite = favourites.filter((fav) => fav.id === item.id);
 	//
 	return (
-		<div className="card col-4 shadow mb-3 p-0" key={item.id}>
+		<div className="card col-md-4 shadow mb-3 p-0" key={item.id}>
 			<div className="text-end p-2">
 				{forfavourite.length > 0 || item.forfavourite ? (
 					<VscHeartFilled
