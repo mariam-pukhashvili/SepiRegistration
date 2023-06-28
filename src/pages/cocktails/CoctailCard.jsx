@@ -37,6 +37,9 @@ const CocktailCard = ({
 				<h3>{item.strDrink} </h3>
 				<h6 className="mt-1">{item.strGlass}</h6>
 				<p className="mt-1 text-muted">{item.strAlcoholic}</p>
+				<div className="mt-1 text-start category  pl-5">
+					<i>{item.strCategory}</i>
+				</div>
 				<Link to={`/details/${item.id}`}>
 					<div className="btn-details text-end mr-3">Details</div>
 				</Link>

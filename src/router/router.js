@@ -48,48 +48,19 @@ export const router = createBrowserRouter([
 						index: true,
 						element: <Homepage />,
 					},
-				],
-			},
-			{
-				path: "/?:q",
-				element: <UserLayout />,
-				loader: authGuardLoader,
-				children: [
+
 					{
+						path: "/?:limit/:q",
 						index: true,
 						element: <Homepage />,
 					},
-				],
-			},
-
-			// {
-			// 	path: "/home",
-			// 	element: <UserLayout />,
-			// 	loader: authGuardLoader,
-			// 	children: [
-			// 		{
-			// 			index: true,
-			// 			element: <Homepage />,
-			// 		},
-			// 	],
-			// },
-			{
-				path: "/favourites",
-				element: <UserLayout />,
-				loader: authGuardLoader,
-				children: [
 					{
+						path: "/favourites",
 						index: true,
 						element: <Favourites />,
 					},
-				],
-			},
-			{
-				path: "/details/:id",
-				element: <UserLayout />,
-				loader: authGuardLoader,
-				children: [
 					{
+						path: "/details/:id",
 						index: true,
 						element: <CocktailDetail />,
 					},

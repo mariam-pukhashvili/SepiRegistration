@@ -31,6 +31,7 @@ function Homepage() {
 
 	const queryParams = new URLSearchParams(window.location.search);
 	let searchkey = queryParams.get("q");
+	let limiteddata = queryParams.get("limit");
 
 	const [state, dispatch] = useReducer(cocktailsReducer, initialState);
 	const navigate = useNavigate();
@@ -41,7 +42,9 @@ function Homepage() {
 
 	const loadCocktails = useCallback(async () => {
 		let search = searchkey ? searchkey : "";
-		const cocktailslist = await getCoctails(limit, search);
+		let limited = limiteddata ? limiteddata : limit;
+
+		const cocktailslist = await getCoctails(limited, search);
 
 		if (searchkey) inputElement.current.value = searchkey;
 		//console.log(cocktailslist);
@@ -92,16 +95,13 @@ function Homepage() {
 		let forlimit = limit + 9;
 		//console.log(forlimit);
 		setLimit(forlimit);
-		console.log(parseInt(limit));
-
-		const cocktailsdata = await getCoctails(forlimit);
-
-		//console.log(cocktailslist);
-		//setcocktailsStorage(cocktailslist);
+		let searchdata = inputElement.current.value;
+		const cocktailsdata = await getCoctails(forlimit, searchdata);
 		dispatch({
 			type: SET_COCKTAILS,
 			payload: cocktailsdata,
 		});
+		navigate("/?limit=" + forlimit + "&q=" + searchdata);
 	};
 
 	const handleClearEvent = async () => {
@@ -149,7 +149,7 @@ function Homepage() {
 					payload: res,
 				});
 				setLoading(false);
-				navigate("/?q=" + searchdata);
+				navigate("/?limit=" + limit + "&q=" + searchdata);
 			}, 1000);
 			return () => {
 				clearTimeout(timer);
