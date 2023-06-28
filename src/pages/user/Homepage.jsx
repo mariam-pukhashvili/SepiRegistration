@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, useReducer, useRef } from "react";
 
 //import useLocalStorage from "../../hooks/useLocalStorage";
 import { getCoctails } from "../../services/Api";
-import { debounce } from "../../helpers/debounce";
+//import { debounce } from "../../helpers/debounce";
 import Loader from "../../components/loader";
 import EmptyData from "../../components/emptydata";
 import CocktailsList from "../cocktails/CoctailsList";
@@ -69,31 +69,31 @@ function Homepage() {
 	// 	setcocktailsStorage(state.cocktails);
 	// }, [state.cocktails, setcocktailsStorage]);
 
-	const onSearch = debounce(({ target }) => {
-		if (target.value.length > 3) {
-			setLoading(true);
-			const timer = setTimeout(() => {
-				dispatch({
-					type: SET_FILTER,
-					payload: target.value,
-				});
+	// const onSearch = debounce(({ target }) => {
+	// 	if (target.value.length > 3) {
+	// 		setLoading(true);
+	// 		const timer = setTimeout(() => {
+	// 			dispatch({
+	// 				type: SET_FILTER,
+	// 				payload: target.value,
+	// 			});
 
-				setLoading(false);
-			}, 1000);
-			return () => {
-				clearTimeout(timer);
-			};
-		} else {
-			if (state.filter) {
-				dispatch({
-					type: CLEAR_FILTER,
-				});
-			}
-		}
-	});
+	// 			setLoading(false);
+	// 		}, 1000);
+	// 		return () => {
+	// 			clearTimeout(timer);
+	// 		};
+	// 	} else {
+	// 		if (state.filter) {
+	// 			dispatch({
+	// 				type: CLEAR_FILTER,
+	// 			});
+	// 		}
+	// 	}
+	// });
 	const handleMoreData = async () => {
 		let forlimit = limit + 9;
-		//console.log(forlimit);
+
 		setLimit(forlimit);
 		let searchdata = inputElement.current.value;
 		const cocktailsdata = await getCoctails(forlimit, searchdata);
