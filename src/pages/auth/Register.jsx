@@ -25,9 +25,16 @@ const Register = () => {
 
 	const navigate = useNavigate();
 
+	const [formErrors, setFormErrors] = useState({});
+
 	const handleRegister = async (event) => {
 		event.preventDefault();
 
+		let errorMessage = formsError();
+		if (errorMessage != "") {
+			setregisterError(errorMessage);
+			return false;
+		}
 		try {
 			const res = await registerUser({
 				email,
@@ -36,15 +43,36 @@ const Register = () => {
 				username,
 				phone,
 				password,
+				repassword,
 			});
 
 			if (res?.accessToken) {
 				navigate("/auth/login");
 			}
 		} catch (error) {
-			console.log(error);
+			//console.log(error);
 			setregisterError(error.message);
 		}
+	};
+
+	const formsError = () => {
+		let message = "";
+
+		if (isNaN(phone)) {
+			message = "Phone must be a number";
+		} else if (username.length < 3 || username.length > 12) {
+			message = "username must be at least 3 to 12 characters in length";
+		} else if (password.length < 6 || username.length > 20) {
+			message = "password must be at least 6 to 20 characters in length";
+		} else if (password !== repassword) {
+			message = "These passwords don't match!";
+		} else if (password.search(/[A-Z]/) < 0) {
+			message = "Your password needs an upper case letter!";
+		} else if (password.search(/[0-9]/) < 0) {
+			message = "Your password needs a number";
+		}
+
+		return message;
 	};
 
 	return (
@@ -127,7 +155,7 @@ const Register = () => {
 							name="repassword"
 							size="md"
 							placeholder="Repeat Password"
-							value={password}
+							value={repassword}
 							onChange={(e) => setRePassword(e.target.value)}
 						/>
 						<MDBBtn type="submit" className="mb-0 px-5" size="md">
